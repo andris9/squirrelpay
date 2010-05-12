@@ -1,0 +1,14 @@
+
+
+currency: EEK
+lang: EST
+
+banks:
+   EYP:
+     bank_name:    SEB
+     private_key:  test_seb_private.pem
+     public_key:   test_seb_pub.pem
+     account_id:   testvpos
+     account_nr:   10002050618003
+     account_name: Keegi
+     url:          https://www.seb.ee/cgi-bin/dv.sh/un3min.r

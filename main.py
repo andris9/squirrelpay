@@ -33,21 +33,21 @@ class ReceiveHandler(webapp.RequestHandler):
     
     params = cgi.parse_qs(self.request.body)
     
-    VK_SERVICE= params['VK_SERVICE'][0]
-    VK_VERSION = params['VK_VERSION'][0]
-    VK_SND_ID = params['VK_SND_ID'][0]
-    VK_REC_ID = params['VK_REC_ID'][0]
-    VK_STAMP = params['VK_STAMP'][0]
-    VK_T_NO = params['VK_T_NO'][0]
-    VK_AMOUNT = params['VK_AMOUNT'][0]
-    VK_CURR = params['VK_CURR'][0]
-    VK_REC_ACC = params['VK_REC_ACC'][0]
-    VK_REC_NAME = params['VK_REC_NAME'][0]
-    VK_SND_ACC = params['VK_SND_ACC'][0]
-    VK_SND_NAME = params['VK_SND_NAME'][0]
-    VK_REF = params['VK_REF'][0]
-    VK_MSG = params['VK_MSG'][0]
-    VK_T_DATE = params['VK_T_DATE'][0]
+    VK_SERVICE= params['VK_SERVICE'][0].decode("latin1")
+    VK_VERSION = params['VK_VERSION'][0].decode("latin1")
+    VK_SND_ID = params['VK_SND_ID'][0].decode("latin1")
+    VK_REC_ID = params['VK_REC_ID'][0].decode("latin1")
+    VK_STAMP = params['VK_STAMP'][0].decode("latin1")
+    VK_T_NO = params['VK_T_NO'][0].decode("latin1")
+    VK_AMOUNT = params['VK_AMOUNT'][0].decode("latin1")
+    VK_CURR = params['VK_CURR'][0].decode("latin1")
+    VK_REC_ACC = params['VK_REC_ACC'][0].decode("latin1")
+    VK_REC_NAME = params['VK_REC_NAME'][0].decode("latin1")
+    VK_SND_ACC = params['VK_SND_ACC'][0].decode("latin1")
+    VK_SND_NAME = params['VK_SND_NAME'][0].decode("latin1")
+    VK_REF = params['VK_REF'][0].decode("latin1")
+    VK_MSG = params['VK_MSG'][0].decode("latin1")
+    VK_T_DATE = params['VK_T_DATE'][0].decode("latin1")
     
     self.response.out.write("\n")
     self.response.out.write(self.request.body)
@@ -105,7 +105,7 @@ class ReceiveHandler(webapp.RequestHandler):
     self.response.out.write("\n\n")
 
     sign = RequestValidator()
-    if sign.verifyWithPEM(ret, VK_MAC, "test_seb_pub.pem"):
+    if sign.verifyWithPEM(ret.encode("latin1"), VK_MAC, "test_seb_pub.pem"):
       self.response.out.write("okidoki")
     else:
       self.response.out.write("error")  

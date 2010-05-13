@@ -14,6 +14,7 @@ banks:
      account_nr:   10002050618003
      account_name: Keegi
      url:          https://www.seb.ee/cgi-bin/dv.sh/un3min.r
+     liveurl:      https://www.seb.ee/cgi-bin/unet3.sh/un3min.r
 
    NORDEA:
      bank_name:    Nordea
@@ -21,3 +22,34 @@ banks:
      private_key:  test_nordea.md5
      account_id:   12345678
      url:          https://netbank.nordea.com/pnbepaytest/epayn.jsp
+     liveurl:      https://netbank.nordea.com/pnbepay/epay.jsp
+
+   HP:
+     bank_name:    Swedbank
+     type:         iPizza
+     private_key:  -
+     public_key:   -
+     account_id:   -
+     account_nr:   -
+     account_name: -
+     url:          https://www.hanza.net/cgi-bin/hanza/pangalink.jsp
+
+   SAMPOPANK:
+     bank_name:    Sampo Pank
+     type:         iPizza
+     private_key:  -
+     public_key:   -
+     account_id:   -
+     account_nr:   -
+     account_name: -
+     url:          https://www2.sampopank.ee/ibank/pizza/pizza
+     
+   KREP:
+     bank_name:    Krediidipank
+     type:         iPizza
+     private_key:  -
+     public_key:   -
+     account_id:   -
+     account_nr:   -
+     account_name: -
+     url:          https://i-pank.krediidipank.ee/teller/maksa

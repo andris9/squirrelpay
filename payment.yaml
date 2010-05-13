@@ -4,6 +4,7 @@ currency: EEK
 lang: EST
 
 banks:
+
    EYP:
      bank_name:    SEB
      type:         iPizza
@@ -13,7 +14,7 @@ banks:
      account_nr:   10002050618003
      account_name: Keegi
      url:          https://www.seb.ee/cgi-bin/dv.sh/un3min.r
-   
+
    NORDEA:
      bank_name:    Nordea
      type:         SOLO

@@ -113,10 +113,11 @@ class RequestValidator:
     if self.payment_config["banks"][self.MACFields["VK_SND_ID"]] and \
          self.verifyWithPEM(self.generateMACString("iPizza").encode("latin1"),
                 self.MACFields["VK_MAC"],
-                self.payment_config["banks"][self.MACFields["VK_SND_ID"]]['public_key']):
-        return self.MACFields["VK_SERVICE"] =='1101' and self.MACFields["VK_STAMP"]
+                self.payment_config["banks"][self.MACFields["VK_SND_ID"]]['public_key']) and \
+         self.MACFields["VK_SERVICE"] =='1101' and self.MACFields["VK_STAMP"]:
+      return {"result":"Success","error":None,"id":self.MACFields["VK_STAMP"]}
     else:
-      return False
+      return {"result":None, "error":"Payment failed", "id":"VK_STAMP" in self.MACFields and self.MACFields["VK_STAMP"]}
 
   def validateSOLOPayment(self, bank, queryStr):
     
@@ -126,9 +127,12 @@ class RequestValidator:
     file.close()
       
     self.populateMACFields(queryStr)
-    return "SOLOPMT_RETURN_PAID" in self.MACFields and len(self.MACFields["SOLOPMT_RETURN_PAID"]) and \
+    if "SOLOPMT_RETURN_PAID" in self.MACFields and len(self.MACFields["SOLOPMT_RETURN_PAID"]) and \
           self.generateMACString("SOLO") == self.MACFields["SOLOPMT_RETURN_MAC"] and \
-              self.MACFields["SOLOPMT_RETURN_STAMP"]
+              self.MACFields["SOLOPMT_RETURN_STAMP"]:
+      return {"result":"Success","error":None,"id":self.MACFields["SOLOPMT_RETURN_STAMP"]}
+    else:
+      return {"result":None, "error":"Payment failed", "id":"SOLOPMT_RETURN_STAMP" in self.MACFields and self.MACFields["SOLOPMT_RETURN_STAMP"]}
 
   def genReferenceCode(self, orig_nr):
     weights = [7,3,1]
@@ -209,4 +213,4 @@ class RequestValidator:
     elif requestObj.request.get("SOLOPMT_RETURN_STAMP"):
       return self.validateSOLOPayment("NORDEA", requestObj.request.query_string)
     else:
-      return False
+      return {"result":None, "error":"Invalid request", "id": None}

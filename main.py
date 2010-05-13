@@ -31,10 +31,10 @@ class ReceiveHandler(webapp.RequestHandler):
     
     stamp = sign.checkPayment(self)
     
-    if stamp:
-      self.response.out.write("okidoki, makstud (%s)" % stamp)
+    if stamp["result"]:
+      self.response.out.write("okidoki, makstud (%s)" % stamp["id"])
     else:
-        self.response.out.write("error")
+      self.response.out.write("error (%s)" % stamp["id"])
 
   def get(self):
     self.post()

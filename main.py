@@ -20,7 +20,7 @@
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
 
-from sqcrypto import RequestValidator
+from sqcrypto import RequestValidator, genReferenceCode, payment_config
 import cgi
 
 class ReceiveHandler(webapp.RequestHandler):
@@ -49,24 +49,20 @@ class MainHandler(webapp.RequestHandler):
     amount = 55.49
     stamp = 12345;
 
-    sign = RequestValidator()
-
-    payment = {
+    payment_data = {
         "stamp"  : stamp,
         "amount" : amount,
-        "ref"    : sign.genReferenceCode(stamp),
+        "ref"    : genReferenceCode(stamp),
         "message": message,
         "url"    : "http://squirrelpay.appspot.com/receive"
         }
 
-    seb_payment = RequestValidator()
-    template_values1 = seb_payment.createPayment("EYP",payment)
-    
-    nordea_payment = RequestValidator()
-    template_values2 = nordea_payment.createPayment("NORDEA",payment)
-    
-    self.response.out.write("SEB:<br /><form method='post' action='%s'>%s<input type='submit' name='nupp' value='maksa'/></form>" % (template_values1["banklink_url"],template_values1["banklink_form"]))
-    self.response.out.write("NORDEA:<br /><form method='post' action='%s'>%s<input type='submit' name='nupp' value='maksa'/></form>" % (template_values2["banklink_url"],template_values2["banklink_form"]))
+    for k in payment_config["banks"].keys():
+      bank = k
+      if payment_config["banks"][k]["active"]:
+        payment = RequestValidator()
+        template_values = payment.createPayment(bank,payment_data)   
+        self.response.out.write("%s:<br /><form method='post' action='%s'>%s<input type='submit' name='nupp' value='maksa'/></form>" % (bank, template_values["banklink_url"],template_values["banklink_form"]))
     
     
 def main():

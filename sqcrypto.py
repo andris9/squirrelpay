@@ -12,7 +12,11 @@ import re
 import math
 import hashlib
 
+payment_config = yaml.load(open("payment.yaml"), Loader=yaml.Loader)
+
 class RequestValidator:
+  key_location = os.path.join(os.path.dirname(__file__),"keys")
+  payment_config = payment_config
   variableOrder = {
     "iPizza":{
       "1001": [
@@ -46,8 +50,6 @@ class RequestValidator:
   
   def __init__(self):
     self.MACFields = {}
-    self.payment_config = yaml.load(open("payment.yaml"), Loader=yaml.Loader)
-    self.key_location = os.path.join(os.path.dirname(__file__),"keys")
     self.service_id = False
     self.cert = False
   
@@ -134,16 +136,6 @@ class RequestValidator:
     else:
       return {"result":None, "error":"Payment failed", "id":"SOLOPMT_RETURN_STAMP" in self.MACFields and self.MACFields["SOLOPMT_RETURN_STAMP"]}
 
-  def genReferenceCode(self, orig_nr):
-    weights = [7,3,1]
-    nrs = re.findall(r'\d', str(orig_nr))
-    nrs.reverse()
-    sum = 0
-    for i, nr in enumerate(nrs):
-      sum = sum + int(nr) * int(weights[i % len(weights)])
-    hundred = int(math.ceil(float(sum)/10)*10)
-    return "%s%s" %(orig_nr, hundred-sum)
-  
   def createPaymentForm(self):
     form = ''
     for k in self.MACFields.keys():
@@ -214,3 +206,14 @@ class RequestValidator:
       return self.validateSOLOPayment("NORDEA", requestObj.request.query_string)
     else:
       return {"result":None, "error":"Invalid request", "id": None}
+
+
+def genReferenceCode(orig_nr):
+  weights = [7,3,1]
+  nrs = re.findall(r'\d', str(orig_nr))
+  nrs.reverse()
+  sum = 0
+  for i, nr in enumerate(nrs):
+    sum = sum + int(nr) * int(weights[i % len(weights)])
+  hundred = int(math.ceil(float(sum)/10)*10)
+  return "%s%s" %(orig_nr, hundred-sum)

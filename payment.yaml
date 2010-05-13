@@ -7,6 +7,7 @@ banks:
 
    EYP:
      bank_name:    SEB
+     active:       True
      type:         iPizza
      private_key:  test_seb_private.pem
      public_key:   test_seb_pub.pem
@@ -18,6 +19,7 @@ banks:
 
    NORDEA:
      bank_name:    Nordea
+     active:       True
      type:         SOLO
      private_key:  test_nordea.md5
      account_id:   12345678
@@ -26,30 +28,33 @@ banks:
 
    HP:
      bank_name:    Swedbank
+     active:       False
      type:         iPizza
-     private_key:  -
-     public_key:   -
-     account_id:   -
-     account_nr:   -
-     account_name: -
+     private_key:  
+     public_key:   
+     account_id:   
+     account_nr:   
+     account_name: 
      url:          https://www.hanza.net/cgi-bin/hanza/pangalink.jsp
 
    SAMPOPANK:
      bank_name:    Sampo Pank
+     active:       False
      type:         iPizza
-     private_key:  -
-     public_key:   -
-     account_id:   -
-     account_nr:   -
-     account_name: -
+     private_key:  
+     public_key:   
+     account_id:   
+     account_nr:   
+     account_name: 
      url:          https://www2.sampopank.ee/ibank/pizza/pizza
      
    KREP:
      bank_name:    Krediidipank
+     active:       False
      type:         iPizza
-     private_key:  -
-     public_key:   -
-     account_id:   -
-     account_nr:   -
-     account_name: -
+     private_key:  
+     public_key:   
+     account_id:   
+     account_nr:   
+     account_name: 
      url:          https://i-pank.krediidipank.ee/teller/maksa

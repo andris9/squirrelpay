@@ -6,9 +6,17 @@ lang: EST
 banks:
    EYP:
      bank_name:    SEB
+     type:         iPizza
      private_key:  test_seb_private.pem
      public_key:   test_seb_pub.pem
      account_id:   testvpos
      account_nr:   10002050618003
      account_name: Keegi
      url:          https://www.seb.ee/cgi-bin/dv.sh/un3min.r
+   
+   NORDEA:
+     bank_name:    Nordea
+     type:         SOLO
+     private_key:  test_nordea.md5
+     account_id:   12345678
+     url:          https://netbank.nordea.com/pnbepaytest/epayn.jsp

@@ -29,37 +29,44 @@ class ReceiveHandler(webapp.RequestHandler):
 
     sign = RequestValidator()
     
-    if sign.validateIPizzaPayment(self.request.body):
-      self.response.out.write("okidoki, makstud %s" % self.request.get("VK_AMOUNT"))
+    stamp = sign.checkPayment(self)
+    
+    if stamp:
+      self.response.out.write("okidoki, makstud (%s)" % stamp)
     else:
-      self.response.out.write("error")  
+        self.response.out.write("error")
 
+  def get(self):
+    self.post()
 
 class MainHandler(webapp.RequestHandler):
 
   def get(self):
 
-    self.response.out.write("Squirrelpay!\n")
+    self.response.out.write("Squirrelpay!<br />\n")
     
     message = "tere tere"
-    amount = 55.10
+    amount = 55.49
     stamp = 12345;
 
     sign = RequestValidator()
 
-    self.response.out.write(cgi.parse_qsl(self.request.body))
-    self.response.out.write("\n")
-    self.response.out.write(sign.MACFields)
+    payment = {
+        "stamp"  : stamp,
+        "amount" : amount,
+        "ref"    : sign.genReferenceCode(stamp),
+        "message": message,
+        "url"    : "http://squirrelpay.appspot.com/receive"
+        }
 
-    template_values = sign.createIPizzaPayment("EYP", [
-        ['VK_STAMP',  stamp],
-        ['VK_AMOUNT', amount],
-        ['VK_REF',    sign.genReferenceCode(stamp)],
-        ['VK_MSG',    message],
-        ['VK_RETURN', "http://squirrelpay.appspot.com/receive"]
-    ])
+    seb_payment = RequestValidator()
+    template_values1 = seb_payment.createPayment("EYP",payment)
     
-    self.response.out.write("<form method='post' action='%s'>%s<input type='submit' name='nupp' value='maksa'/></form>" % (template_values["banklink_url"],template_values["banklink_form"]))
+    nordea_payment = RequestValidator()
+    template_values2 = nordea_payment.createPayment("NORDEA",payment)
+    
+    self.response.out.write("SEB:<br /><form method='post' action='%s'>%s<input type='submit' name='nupp' value='maksa'/></form>" % (template_values1["banklink_url"],template_values1["banklink_form"]))
+    self.response.out.write("NORDEA:<br /><form method='post' action='%s'>%s<input type='submit' name='nupp' value='maksa'/></form>" % (template_values2["banklink_url"],template_values2["banklink_form"]))
     
     
 def main():

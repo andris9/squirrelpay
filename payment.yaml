@@ -58,3 +58,25 @@ banks:
      account_nr:   
      account_name: 
      url:          https://i-pank.krediidipank.ee/teller/maksa
+     
+fortumo:
+  # Service ID and secret
+  service_id: 34f7e5747de26810f1de920c1b8f9e4f # <- change this value
+  secret:     c0ed6ef48be0460c8ab90c4ebd23f7e7 # <- change this value
+
+  # Fortumo IP-addresses
+  allowed_ips:
+  - 81.20.151.38
+  - 81.20.148.122
+  - 209.20.83.207
+  - 127.0.0.1 # <- Local IP, in case for debugging to simulate requests
+
+
+  # Information regarding SMS keywords and such in different countries
+  countries:
+  -
+    country:  Estonia        # Country
+    keyword:  TXT SMSCHARTY  # SMS keyword to prepend the SMS messages
+    phone:    1311           # Short number to send the messages
+    price:    5 EEK          # Price for one SMS
+

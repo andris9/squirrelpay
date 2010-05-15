@@ -20,8 +20,11 @@
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp import util
 
-from sqcrypto import RequestValidator, genReferenceCode, payment_config
+from banklink.sqcrypto import RequestValidator, genReferenceCode, payment_config
 import cgi
+
+from google.appengine.ext import db
+import dbtables
 
 class ReceiveHandler(webapp.RequestHandler):
 
